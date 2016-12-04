@@ -1,7 +1,26 @@
-﻿function editLog(e) {
+﻿/***********************************************************************
+* @file editLog.gs
+*
+* @brief function of edit Logger
+*
+* @author Shohei.Sugano
+*
+* @date 2016.12.04
+*
+* @copyright (c) 2016 aba Co.,Ltd.
+*
+***********************************************************************/
+
+/**
+ * edit Logger
+ * 
+ * @param sheet[in] events {@see https://developers.google.com/apps-script/understanding_events?hl=ja}
+ * @attention need setting trigger
+ */
+function editLog(e) {
     //Spreadsheet Servces 
     //http://googlestyle.client.jp/sheet/sheet.html
-
+/*	
     //Log保存用シートの名前
 	var logSheetName = 'Log';
 
@@ -63,7 +82,7 @@
 	//変更セルの内容(Stringフォーマットにする)
 	logSheet.getRange(row, 7).setNumberFormat('@');  
 	logSheet.getRange(row, 7).setValue(v);  
-	
+*/
 /*
 	//Slackに通知する場合
 	//tokenを取得(ボタン押す)→ https://api.slack.com/web

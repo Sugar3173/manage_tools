@@ -1,6 +1,25 @@
-﻿function createCalendar( sheet ) {
+﻿/***********************************************************************
+* @file createCalendar.gs
+*
+* @brief function of Create calendar
+*
+* @author Shohei.Sugano
+*
+* @date 2016.12.04
+*
+* @copyright (c) 2016 aba Co.,Ltd.
+*
+***********************************************************************/
+
+/**
+ * Create calendar
+ * 
+ * @param sheet[in] active sheet
+ */
+function createCalendar( sheet ) {
+　var start = new Date();//for 処理速度Check
   var today = new Date();
-  var defaultMonthWidth = 3;
+  var defaultMonthWidth = 2;
   var lastDate = today;
   var startDate = new Date(lastDate.getYear(), lastDate.getMonth(), lastDate.getDate());
   var endDate = new Date(today.getYear(), today.getMonth() + defaultMonthWidth, today.getDate());
@@ -8,8 +27,8 @@
   
   var startDateColumn = sheet.getLastColumn() + 1;
   var diffDate = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
-  diffDate = Math.floor(diffDate) - 2;//１日分マイナス+startDateColumnでの+1を相殺
-  Browser.msgBox(diffDate, Browser.Buttons.OK);
+  diffDate = Math.floor(diffDate) - 3;//１日分マイナス+startDateColumnでの+1を相殺
+//  Browser.msgBox(diffDate, Browser.Buttons.OK);
   var endDateColumn = startDateColumn + diffDate;
   
   var week = new Array("日", "月", "火", "水", "木", "金", "土");
@@ -31,6 +50,9 @@
   
 
   var rowNum = sheet.getMaxRows() - 1;
+  if(rowNum > CONST_ROW_SET_MAX){
+    rowNum = CONST_ROW_SET_MAX-1;
+  }
   sheet.insertColumnsAfter(startDateColumn, diffDate + 1);
   sheet.getRange(2, startDateColumn, rowNum, diffDate + 1).setBorder(true, true, true, true, true, true);
   sheet.getRange(2, startDateColumn, 1, diffDate + 1).setNumberFormat("d");
@@ -69,7 +91,7 @@
         var holidayName = holidayEvents[j].getTitle();
         sheet.getRange(2, startDateColumn + i).setComment(holidayName);
         if (holidayDates.length != j + 1) {
-          j++;
+          ++j;
         }
       }
     }
@@ -78,4 +100,10 @@
     sheet.getRange(2, startDateColumn + i).setValue(newDate);
     sheet.getRange(3, startDateColumn + i).setValue(day);
   }
+
+  var end = new Date();//for 処理速度Check
+  var span = end - start;
+  Logger.log('startTime: ' + start);
+  Logger.log('endTime: ' + end);
+  Logger.log('処理時間：' + span + 'ミリ秒'); 
 }
